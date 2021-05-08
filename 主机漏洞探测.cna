@@ -1,0 +1,72 @@
+
+
+#收集目标主机可利用漏洞的脚本
+
+
+sub Sherlock {
+	bpowershell_import($1, script_resource("Sherlock.ps1"));
+	bpowershell($1, "Find-Allvulns");
+}
+
+
+sub jaws-enum {
+	bpowershell_import($1, script_resource("jaws-enum.ps1"));
+	bpowershell($1, "powershell powershell.exe -ExecutionPolicy Bypass -File .\jaws-enum.ps1 -OutputFilename JAWS-Enum.txt");
+}
+
+#PowerUp.ps1脚本查询,此脚本会输出所有可识别的漏洞
+
+sub PowerUp {
+	bpowershell_import($1, script_resource("PowerUp.ps1"));
+	bpowershell($1, "Invoke-Allchecks");
+}
+
+popup beacon_bottom {
+	
+	menu "目标主机可利用漏洞查询" {		
+		
+		item "Sherlock脚本查询" {
+			if (-exists script_resource("Sherlock.ps1")) {		
+				local('$bid');
+				foreach $bid ($1) {
+					Sherlock($bid);
+				}
+			}
+			else {
+        		berror($1, "Sherlock.ps1 does not exist :(");
+    		}
+		}
+		
+		
+		item "jaws-enum脚本查询" {
+			if (-exists script_resource("jaws-enum.ps1")) {		
+				local('$bid');
+				foreach $bid ($1) {
+					jaws-enum($bid);
+				}
+			}
+			else {
+        		berror($1, "jaws-enum.ps1 does not exist :(");
+				}
+			}
+   		item "PowerUp脚本查询" {
+			if (-exists script_resource("PowerUp.ps1")) {		
+				local('$bid');
+				foreach $bid ($1) {
+					PowerUp($bid);
+				}
+			}
+			else {
+        		berror($1, "PowerUp.ps1 does not exist :(");
+				}
+			}
+			
+			menu "关于" {
+				item("QQ交流", {show_message("2855526914") });
+				item("cmdback知乎专栏", { url_open("hhttps://www.zhihu.com/column/c_1049341100338237440"); });
+				}
+		
+		
+
+	}
+}
