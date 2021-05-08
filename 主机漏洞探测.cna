@@ -62,8 +62,9 @@ popup beacon_bottom {
 			}
 			
 			menu "关于" {
+				item("项目地址", { url_open("https://github.com/laonianrenc/CobaltStrike-.git"); });
 				item("QQ交流", {show_message("2855526914") });
-				item("cmdback知乎专栏", { url_open("hhttps://www.zhihu.com/column/c_1049341100338237440"); });
+				item("cmdback知乎专栏", { url_open("https://www.zhihu.com/column/c_1049341100338237440"); });
 				}
 		
 		
